@@ -36,3 +36,7 @@ This will process the tests specified in the `test.txt` file. Feel free to add y
 
 ## Mock table for understanding the logic ![20211020_234215](https://user-images.githubusercontent.com/20723780/138208241-33b09563-4c15-4283-8570-6d3ee45b6454.jpg)
 
+## Reference: 
+
+I solved [this](https://leetcode.com/problems/regular-expression-matching/) question to understand how DP works for contexts like these. 
+
