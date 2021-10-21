@@ -16,7 +16,10 @@ A tricky thing to note is that the . operator should be treated into considerati
 ## Function Example:
 
 ```
-isMatch("a+", "a")
+import patternMatcher
+
+# Prints Boolean variable
+print(patternMatcher.isMatch("a+", "a"))
 ```
 
 Basically, the syntax takes two strings, a pattern string first, and then the main string, and it has a boolean output. 
