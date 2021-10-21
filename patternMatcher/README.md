@@ -1,6 +1,6 @@
 # Pattern Matcher 
 
-##Main rules for our DP logic
+## Main rules for our DP logic
 
 For +:
 If there's a plus, we look at the value in the top of the table.
@@ -13,10 +13,30 @@ This is a simple character, and . is treated as the same character as the curren
 A tricky thing to note is that the . operator should be treated into consideration while doing the + operation as well. 
 
 
-##Function Example:
+## Function Example:
 
 ```
-isMatch("a+", "a")
+import patternMatcher
+
+# Prints Boolean variable
+print(patternMatcher.isMatch("a+", "a"))
 ```
 
 Basically, the syntax takes two strings, a pattern string first, and then the main string, and it has a boolean output. 
+
+## ReadMe for unit test or code execution: 
+
+You can directly use the module present, or, you can run: 
+
+``` 
+python3 unitRead.py
+```
+
+This will process the tests specified in the `test.txt` file. Feel free to add your own unit tests for testing how robust the code is. 
+
+## Mock table for understanding the logic ![20211020_234215](https://user-images.githubusercontent.com/20723780/138208241-33b09563-4c15-4283-8570-6d3ee45b6454.jpg)
+
+## Reference: 
+
+I solved [this](https://leetcode.com/problems/regular-expression-matching/) question to understand how DP works for contexts like these. 
+
