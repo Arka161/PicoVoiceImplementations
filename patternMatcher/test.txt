@@ -1,0 +1,5 @@
+["a+rka", "aaaaaarka", True]
+["a+rka", "arka", True]
+["a++++ka", "arka", False]
+["mi+s+p+++i", "missssppppiiii", False]
+["mi+s+p+++i", "missssppppi", True]
