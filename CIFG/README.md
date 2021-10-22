@@ -17,9 +17,18 @@ We basically implement this in a vanilla LSTM RNN-esque architecture.
 5. In forward, we set the forget gate as `f = np.ones(i.shape) - i`.
 6. Gradients are clipped to avoid exploding gradient issues that can incur very large updates to neural network weights. 
 
+## Evaluation: 
+
+We use a regular cross entropy loss, and a perplexity metric. 
+
+![image](https://user-images.githubusercontent.com/20723780/138415573-64ad2e7c-b1f0-44d1-8628-4f099e4aba4c.png)
+
+The cross entropy loss _maximizes_ the probability of the given next true word, and in theory, perplexity is implemented as the exponential of the cross entropy loss. Perplexity in this scenario can be easy to understand from a _human_ perspective, as whenever we try to predict the next words, we have a choice between *n* words, where *n* denotes the perplexity. 
+
 
 ### Reference: 
 
 1. https://blog.varunajayasiri.com/numpy_lstm.html
 2. https://colah.github.io/posts/2015-08-Understanding-LSTMs/
 3. https://en.wikipedia.org/wiki/Long_short-term_memory#:~:text=Long%20short%2Dterm%20memory%20(LSTM)%20is%20an%20artificial%20recurrent,the%20field%20of%20deep%20learning.&text=LSTM%20networks%20are%20well%2Dsuited,events%20in%20a%20time%20series.
+4. https://towardsdatascience.com/perplexity-in-language-models-87a196019a94
