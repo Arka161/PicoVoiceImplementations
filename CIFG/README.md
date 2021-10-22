@@ -14,7 +14,7 @@ We basically implement this in a vanilla LSTM RNN-esque architecture.
 2. Weights have been initialized using the Xavier GLOROT scheme. I tried random weights too, but the loss didn't decrease. So only GLOROT worked. 
 3. Cross Entropy Loss is used, and perplexity is used just as a metric (not for ADAM optimization).
 4. We reset the gradients before each backpropagation step (akin to `torch.zero_grad()`). 
-5. In forward, we set the forget gate as `f = np.ones(i.shape) - i`.
+5. In forward, we set the forget gate as `f_t = np.ones(i_t.shape) - i_t`.
 6. Gradients are clipped to avoid exploding gradient issues that can incur very large updates to neural network weights. 
 
 ## Evaluation: 
@@ -25,7 +25,7 @@ We use a regular cross entropy loss, and a perplexity metric.
 
 The cross entropy loss _maximizes_ the probability of the given next true word, and in theory, perplexity is implemented as the exponential of the cross entropy loss. Perplexity in this scenario can be easy to understand from a _human_ perspective, as whenever we try to predict the next words, we have a choice between *n* words, where *n* denotes the perplexity. 
 
-Furthermore, the cross entropy is a very textbook loss for problems/formulations such as these. We use it over regression based losses like the squared error loss as we want to perform Convex optimization, that enables us to efficiently train a deep network. The slide below from Grosse et. al talks about the intuition nicely. 
+Furthermore, the cross entropy is a very textbook loss for problems/formulations such as these. We use it over regression based losses like the squared error loss as we want to perform Convex optimization, that enables us to efficiently train a deep network. The slide below from Grosse et. al from Stanford University talks about the intuition nicely. 
 
 ![image](https://user-images.githubusercontent.com/20723780/138416248-eddf6e62-eeef-4ccb-8b96-013c42ada084.png)
 
