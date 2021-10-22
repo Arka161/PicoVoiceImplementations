@@ -100,4 +100,3 @@ A pre-compiled `a.exe` has also been added.
 
 1. https://github.com/igniting/generic-stack
 2. https://sites.math.rutgers.edu/~ajl213/CLRS/CLRS.html
-3. 
