@@ -57,7 +57,7 @@ o_t = sigmoid(x_f * u_o + h_(f-1) * w_o + b_0)
 
 Finally, a forward propagation yields the required output. 
 
-## Backpropagaton Through Time (BPTT) 
+This is used in *BPTT* (Backpropagation through the time), and the gradients are used in analytical or convex optimization. 
 
 
 
