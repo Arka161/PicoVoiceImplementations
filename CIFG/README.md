@@ -49,6 +49,8 @@ Furthermore, the cross entropy is a very textbook loss for problems/formulations
  #open driverNotebook.ipynb
  ```
  
+ If you would like to replace the dataset, just replace the text. I would NOT recommend NLP processing in this sort of a problem where you remove stop words, URLs, etc as we do not want incorrect semantics to be learned. 
+ 
  NOTE: Since Numpy does not support GPU, we have the training done on the CPU. It might be a little slow if your text file is too large. 
 
 ### Reference: 
