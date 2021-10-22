@@ -29,7 +29,7 @@ Furthermore, the cross entropy is a very textbook loss for problems/formulations
 
 ![image](https://user-images.githubusercontent.com/20723780/138416248-eddf6e62-eeef-4ccb-8b96-013c42ada084.png)
 
-## Sample 
+## Sample text generated after a few epochs: 
 
  ```
   ill me tain in sault
