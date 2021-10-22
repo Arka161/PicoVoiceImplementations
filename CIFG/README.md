@@ -1,6 +1,25 @@
 # CIFG Implementation 
 
-General LSTM theory is availabe in the `THEROY.md` file in this same folder. 
+General LSTM theory is availabe in the `THEORY.md` file in this same folder. 
 
 First, here's an execellent explanation from Colah's blog post: 
 
+![image](https://user-images.githubusercontent.com/20723780/138414303-0aa599bf-3e31-40c3-8e30-6a5e9e392415.png)
+
+We basically implement this in a vanilla LSTM RNN-esque architecture. 
+
+## Design decisions:
+
+1. For optimization, we used a standard ADAM optimizer, which works on the intuition on RMS prop + two beta values. 
+2. Weights have been initialized using the Xavier GLOROT scheme. I tried random weights too, but the loss didn't decrease. So only GLOROT worked. 
+3. Cross Entropy Loss is used, and perplexity is used just as a metric (not for ADAM optimization).
+4. We reset the gradients before each backpropagation step (akin to `torch.zero_grad()`). 
+5. In forward, we set the forget gate as `f = np.ones(i.shape) - i`.
+6. Gradients are clipped to avoid exploding gradient issues that can incur very large updates to neural network weights. 
+
+
+### Reference: 
+
+1. https://blog.varunajayasiri.com/numpy_lstm.html
+2. https://colah.github.io/posts/2015-08-Understanding-LSTMs/
+3. https://en.wikipedia.org/wiki/Long_short-term_memory#:~:text=Long%20short%2Dterm%20memory%20(LSTM)%20is%20an%20artificial%20recurrent,the%20field%20of%20deep%20learning.&text=LSTM%20networks%20are%20well%2Dsuited,events%20in%20a%20time%20series.
