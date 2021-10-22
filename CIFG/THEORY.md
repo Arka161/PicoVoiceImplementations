@@ -9,7 +9,7 @@ The Forget Gate is responsible for deciding what information should be removed f
 However, in this case, the numpy array looks like (from a 10,000 feet overview):
 
 ```
-forget = 1 - input
+forget_for_timestep_tensor = vector_of_ones_input_gate_size - input_for_timestep_tensor
 ```
 
 Forget formulation:  
