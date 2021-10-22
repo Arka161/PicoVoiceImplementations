@@ -63,7 +63,7 @@ We should have this sort of a approach, except the `realloc` code. Plus we shoul
 
 Well, first, we need to  have efficient multithreading + each operation must be thread safe. If there's a pop operation going on and a push operation going on at the same time, we must handle that scenario using something like a `lock`. A lock can pause one operation, and priority can be assigned for unlocking each lock (alternatively can be handled by `lock guards`). 
 
-C does not directly support `smart pointers`, though ideally, we must implement our own `smart pointer` class to make sure we are efficiently freeeing memory without relying too much on the programmer and the code-reviewer. 
+C does not directly support `smart pointers`, though ideally, we must implement our own `smart pointer` class (struct + funcs) to make sure we are efficiently freeeing memory without relying too much on the programmer and the code-reviewer. 
 
 Another thing that is a MUST in real time systems is exceptions (`try`, `catch` and `throw`) to efficently throw manual exceptions. 
 
