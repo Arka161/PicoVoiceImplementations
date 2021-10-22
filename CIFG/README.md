@@ -25,9 +25,31 @@ We use a regular cross entropy loss, and a perplexity metric.
 
 The cross entropy loss _maximizes_ the probability of the given next true word, and in theory, perplexity is implemented as the exponential of the cross entropy loss. Perplexity in this scenario can be easy to understand from a _human_ perspective, as whenever we try to predict the next words, we have a choice between *n* words, where *n* denotes the perplexity. 
 
-Furthermore, the cross entropy is a very textbook loss for problems/formulations such as these. We use it over regression based losses like the squared error loss as we want to perform Convex optimization, that enables us to efficiently train a deep network. 
+Furthermore, the cross entropy is a very textbook loss for problems/formulations such as these. We use it over regression based losses like the squared error loss as we want to perform Convex optimization, that enables us to efficiently train a deep network. The slide below from Grosse et. al talks about the intuition nicely. 
 
 ![image](https://user-images.githubusercontent.com/20723780/138416248-eddf6e62-eeef-4ccb-8b96-013c42ada084.png)
+
+## Sample 
+
+ ```
+  ill me tain in sault
+  i puan,
+  and mirn a gended agioly.
+  resban nath as for alon ade id,
+  whereit truths to any eyes thee:
+  and with thit the mise tote mechiend:
+  but lefs my love, hath my love, to others my sifher laim man, and to knived hath boly
+ ```
+ 
+ ## Usage:
+ 
+ ```
+ conda install -c conda-forge jupyterlab
+ jupyter-lab
+ #open driverNotebook.ipynb
+ ```
+ 
+ NOTE: Since Numpy does not support GPU, we have the training done on the CPU. It might be a little slow if your text file is too large. 
 
 ### Reference: 
 
