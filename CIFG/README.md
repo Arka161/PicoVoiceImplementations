@@ -25,6 +25,9 @@ We use a regular cross entropy loss, and a perplexity metric.
 
 The cross entropy loss _maximizes_ the probability of the given next true word, and in theory, perplexity is implemented as the exponential of the cross entropy loss. Perplexity in this scenario can be easy to understand from a _human_ perspective, as whenever we try to predict the next words, we have a choice between *n* words, where *n* denotes the perplexity. 
 
+Furthermore, the cross entropy is a very textbook loss for problems/formulations such as these. We use it over regression based losses like the squared error loss as we want to perform Convex optimization, that enables us to efficiently train a deep network. 
+
+![image](https://user-images.githubusercontent.com/20723780/138416248-eddf6e62-eeef-4ccb-8b96-013c42ada084.png)
 
 ### Reference: 
 
