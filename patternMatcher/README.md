@@ -26,11 +26,21 @@ Basically, the syntax takes two strings, a pattern string first, and then the ma
 
 ## ReadMe for unit test or code execution: 
 
-You can directly use the module present, or, you can run: 
+You can directly use the module present. If you want to test the correctness, please add your own unit test cases inside of `test.txt`. After making sure your test cases have been added, please run the following code to make sure your unit tests have been executed correctly. This program uses the generic `unittest` module in Python.  
 
 ``` 
-python3 unitRead.py
+python3 -m unittest unitRead.py
 ```
+
+ ## Format code to PEP-8 standards (Important for contributing to the repo): 
+ 
+ This repository is strictly based on *PEP-8* standards. To assert PEP-8 standards after editing your own code, use the following: 
+ 
+ ```
+ pip install black
+ black  patternMatcher.py
+ black unitRead.py
+ ```
 
 This will process the tests specified in the `test.txt` file. Feel free to add your own unit tests for testing how robust the code is. 
 
