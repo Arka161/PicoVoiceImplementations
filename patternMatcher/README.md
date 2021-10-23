@@ -1,5 +1,9 @@
 # Pattern Matcher 
 
+## Dynamic Programming Intuition: 
+
+We can save a bruteforce-ish algorithm by using more space for lookups, which is the core of dynamic programming. 
+
 ## Main rules for our DP logic
 
 For +:
@@ -45,10 +49,11 @@ pip install -r requirements.txt
  This repository is strictly based on *PEP-8* standards. To assert PEP-8 standards after editing your own code, use the following: 
  
  ```
- pip install black
  black  patternMatcher.py
  black unitRead.py
  ```
+ 
+ `black` should be already present if you installed the software using the requirements file. 
 
 This will process the tests specified in the `test.txt` file. Feel free to add your own unit tests for testing how robust the code is. 
 
