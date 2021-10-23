@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 
+
 class LSTM:
     def __init__(
         self,
@@ -84,7 +85,7 @@ class LSTM:
 
     # Generic Softmax with numerical stability
     def softmax(self, x):
-        return np.exp(x - np.max(x)) / (np.sum(np.exp(x - np.max(x)))+self.eps)
+        return np.exp(x - np.max(x)) / (np.sum(np.exp(x - np.max(x))) + self.eps)
 
     def dsigmoid(self, y):
         return y * (1 - y)
@@ -281,7 +282,7 @@ class LSTM:
             )
         return loss, h[self.seq_len - 1], c[self.seq_len - 1]
 
-    def train(self, X, verbose=True, earlyStoping = False, earlyStoppingTolerance = 500):
+    def train(self, X, verbose=True, earlyStoping=False, earlyStoppingTolerance=500):
         """
         Main method of the LSTM class where training takes place
         """
@@ -327,7 +328,7 @@ class LSTM:
                     # Similar to INT_MAX
                     if prev_loss < self.smooth_loss:
                         counter += 1
-                    else: 
+                    else:
                         counter = 0
 
                     if counter >= earlyStoppingTolerance:
