@@ -40,6 +40,13 @@ Furthermore, the cross entropy is a very textbook loss for problems/formulations
   and with thit the mise tote mechiend:
   but lefs my love, hath my love, to others my sifher laim man, and to knived hath boly
  ```
+ ## Install Requirements: 
+ 
+ We do not use DL libraries like PyTorch, Tensorflow, etc as the purpose is to show implementation from scratch using NumPy. For installing the requirements for this software, please run the following: 
+ 
+ ```
+ pip install -r requirements.txt
+ ```
  
  ## Usage:
  
@@ -62,7 +69,6 @@ Furthermore, the cross entropy is a very textbook loss for problems/formulations
  This repository is strictly based on *PEP-8* standards. To assert PEP-8 standards after editing your own code, use the following: 
  
  ```
- pip install black
  black  modelCIFG.py
  black test_model.py
  ```
