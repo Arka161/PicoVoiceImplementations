@@ -104,4 +104,3 @@ The `stack` executable runs the main implementation, and the the `stackT` stands
 
 1. https://github.com/igniting/generic-stack
 2. https://sites.math.rutgers.edu/~ajl213/CLRS/CLRS.html
-3. 

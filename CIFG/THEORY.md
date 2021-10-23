@@ -9,7 +9,7 @@ The Forget Gate is responsible for deciding what information should be removed f
 However, in this case, the numpy array looks like (from a 10,000 feet overview):
 
 ```
-forget = 1 - input
+forget_for_timestep_tensor = vector_of_ones_input_gate_size - input_for_timestep_tensor
 ```
 
 Forget formulation:  
@@ -57,7 +57,7 @@ o_t = sigmoid(x_f * u_o + h_(f-1) * w_o + b_0)
 
 Finally, a forward propagation yields the required output. 
 
-## Backpropagaton Through Time (BPTT) 
+This is used in *BPTT* (Backpropagation through the time), and the gradients are used in analytical or convex optimization. 
 
 
 
