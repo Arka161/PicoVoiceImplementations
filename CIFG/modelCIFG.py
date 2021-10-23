@@ -1,5 +1,5 @@
 import numpy as np
-
+import sys
 
 class LSTM:
     def __init__(
@@ -30,7 +30,6 @@ class LSTM:
         self.beta1 = beta1  # 1st momentum parameter
         self.beta2 = beta2  # 2nd momentum parameter
 
-        # -----initialise weights and biases-----#
         self.params = {}
         std = 1.0 / np.sqrt(
             self.vocab_size + self.n_h
@@ -59,7 +58,6 @@ class LSTM:
         )
         self.params["bv"] = np.zeros((self.vocab_size, 1))
 
-        # -----initialise gradients and Adam parameters-----#
         self.grads = {}
         self.adam_params = {}
 
@@ -86,7 +84,7 @@ class LSTM:
 
     # Generic Softmax with numerical stability
     def softmax(self, x):
-        return np.exp(x - np.max(x)) / np.sum(np.exp(x - np.max(x)))
+        return np.exp(x - np.max(x)) / (np.sum(np.exp(x - np.max(x)))+self.eps)
 
     def dsigmoid(self, y):
         return y * (1 - y)
@@ -164,6 +162,7 @@ class LSTM:
         """
         Implements the forward propagation for one time step
         """
+
         # Concatenate the h from previous timestep and x from current time step
         z = np.row_stack((h_prev, x))
 
@@ -191,6 +190,7 @@ class LSTM:
         """
         Implements the backward propagation for one time step
         """
+
         dv = np.copy(y_hat)
         dv[y] -= 1
 
@@ -281,7 +281,7 @@ class LSTM:
             )
         return loss, h[self.seq_len - 1], c[self.seq_len - 1]
 
-    def train(self, X, verbose=True):
+    def train(self, X, verbose=True, earlyStoping = False, earlyStoppingTolerance = 500):
         """
         Main method of the LSTM class where training takes place
         """
@@ -291,11 +291,11 @@ class LSTM:
         # Proper division here
         num_batches = len(X) // self.seq_len
         X_trimmed = X[: num_batches * self.seq_len]
-
+        prev_loss = sys.maxsize
         for epoch in range(self.epochs):
             h_prev = np.zeros((self.n_h, 1))
             c_prev = np.zeros((self.n_h, 1))
-
+            counter = 0
             for j in range(0, len(X_trimmed) - self.seq_len, self.seq_len):
                 # prepare batches
                 x_batch = [
@@ -323,8 +323,19 @@ class LSTM:
                 batch_num = epoch * self.epochs + j / self.seq_len + 1
                 self.update_params(batch_num)
 
+                if earlyStoping:
+                    # Similar to INT_MAX
+                    if prev_loss < self.smooth_loss:
+                        counter += 1
+                    else: 
+                        counter = 0
+
+                    if counter >= earlyStoppingTolerance:
+                        break
+                    prev_loss = self.smooth_loss
                 # print out loss and sample string
                 if verbose:
+                    # 400000 -> mini batch iter
                     if j % 400000 == 0:
                         print(
                             "Epoch:",

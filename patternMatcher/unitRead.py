@@ -9,62 +9,33 @@ sys.path.append('C:\pico\PicoVoiceImplementations\patternMatcher')
 
 import patternMatcher
 
-
-pattern_arr = []
-string_arr = []
-g_t_arr = []
-
-with open('test.txt') as file:
-    lines = file.readlines()
-    for line in lines:
-        line = line.rstrip()
-
-        # Convert string representation of the list in .txt to an actual list
-        res = ast.literal_eval(line)
-        pattern = res[0]
-        string_n = res[1]
-        g_t = res[2]
-
-        pattern_arr.append(pattern)
-        string_arr.append(string_n)
-        g_t_arr.append(g_t)
-
 class unitRead(unittest.TestCase):
+    def setUp(self) -> None:
+            self.pattern_arr = []
+            self.string_arr = []
+            self.g_t_arr = []
 
-    def test_0(self):
-            pattern = pattern_arr[0]
-            string_c = string_arr[0]
-            gt_c = g_t_arr[0]
+            with open('test.txt') as file:
+                lines = file.readlines()
+                for line in lines:
+                        line = line.rstrip()
 
-            self.assertEqual(patternMatcher.isMatch(string_c, pattern), gt_c, "Test 0 failed")
+                        # Convert string representation of the list in .txt to an actual list
+                        res = ast.literal_eval(line)
+                        pattern = res[0]
+                        string_n = res[1]
+                        g_t = res[2]
 
-    def test_1(self):
-            pattern = pattern_arr[1]
-            string_c = string_arr[1]
-            gt_c = g_t_arr[1]
+                        self.pattern_arr.append(pattern)
+                        self.string_arr.append(string_n)
+                        self.g_t_arr.append(g_t)
+    def test_whole_file(self):
+            for i in range(len(self.pattern_arr)):
+                    pattern = self.pattern_arr[i]
+                    string_c = self.string_arr[i]
+                    gt_c = self.g_t_arr[i]
 
-            self.assertEqual(patternMatcher.isMatch(string_c, pattern), gt_c, "Test 1 failed")
-
-    def test_2(self):
-            pattern = pattern_arr[2]
-            string_c = string_arr[2]
-            gt_c = g_t_arr[2]
-
-            self.assertEqual(patternMatcher.isMatch(string_c, pattern), gt_c, "Test 2 failed")
-
-    def test_3(self):
-            pattern = pattern_arr[3]
-            string_c = string_arr[3]
-            gt_c = g_t_arr[3]
-
-            self.assertEqual(patternMatcher.isMatch(string_c, pattern), gt_c, "Test 3 failed")
-
-    def test_4(self):
-            pattern = pattern_arr[4]
-            string_c = string_arr[4]
-            gt_c = g_t_arr[4]
-
-            self.assertEqual(patternMatcher.isMatch(string_c, pattern), gt_c, "Test 4 failed")
+                    self.assertEqual(patternMatcher.isMatch(string_c, pattern), gt_c, "Test failed")
     
     if __name__ == '__main__':
         unittest.main()
