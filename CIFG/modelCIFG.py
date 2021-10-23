@@ -1,8 +1,19 @@
 import numpy as np
 
+
 class LSTM:
-    def __init__(self, char_to_idx, idx_to_char, vocab_size, n_h=100, seq_len=25,
-                 epochs=2, lr=0.001, beta1=0.9, beta2=0.999):
+    def __init__(
+        self,
+        char_to_idx,
+        idx_to_char,
+        vocab_size,
+        n_h=100,
+        seq_len=25,
+        epochs=2,
+        lr=0.001,
+        beta1=0.9,
+        beta2=0.999,
+    ):
         """
         Implementation of simple character-level LSTM using Numpy
         """
@@ -21,8 +32,10 @@ class LSTM:
 
         # -----initialise weights and biases-----#
         self.params = {}
-        std = (1.0 / np.sqrt(self.vocab_size + self.n_h))  # Randomized Xavier GLOROT initialisation
-        # I slightly varied the standard Glorot initialization, as it seemed to do better in some of my tests while checking for other datasets too. 
+        std = 1.0 / np.sqrt(
+            self.vocab_size + self.n_h
+        )  # Randomized Xavier GLOROT initialisation
+        # I slightly varied the standard Glorot initialization, as it seemed to do better in some of my tests while checking for other datasets too.
 
         # forget gate
         self.params["Wf"] = np.random.randn(self.n_h, self.n_h + self.vocab_size) * std
@@ -33,7 +46,7 @@ class LSTM:
         self.params["bi"] = np.zeros((self.n_h, 1))
 
         # cell gate
-        self.params["Wc"] = np.random.randn(self.n_h, self.n_h + self.vocab_size) * std 
+        self.params["Wc"] = np.random.randn(self.n_h, self.n_h + self.vocab_size) * std
         self.params["bc"] = np.zeros((self.n_h, 1))
 
         # output gate
@@ -41,8 +54,9 @@ class LSTM:
         self.params["bo"] = np.zeros((self.n_h, 1))
 
         # output
-        self.params["Wv"] = np.random.randn(self.vocab_size, self.n_h) * \
-                            (1.0 / np.sqrt(self.vocab_size))
+        self.params["Wv"] = np.random.randn(self.vocab_size, self.n_h) * (
+            1.0 / np.sqrt(self.vocab_size)
+        )
         self.params["bv"] = np.zeros((self.vocab_size, 1))
 
         # -----initialise gradients and Adam parameters-----#
@@ -58,18 +72,17 @@ class LSTM:
         self.perp = np.exp(self.smooth_loss)
         return
 
-
     def sigmoid(self, x, grad=False):
-        sigm = 1/(1+np.exp(-x))
+        sigm = 1 / (1 + np.exp(-x))
         if grad:
             return sigm * (1 - sigm)
         return sigm
 
     def tanh(self, x, grad=False):
         if grad:
-            dt=1-(np.exp(x)-np.exp(-x))/(np.exp(x)+np.exp(-x))**2
+            dt = 1 - (np.exp(x) - np.exp(-x)) / (np.exp(x) + np.exp(-x)) ** 2
             return dt
-        return (np.exp(x)-np.exp(-x))/(np.exp(x)+np.exp(-x))
+        return (np.exp(x) - np.exp(-x)) / (np.exp(x) + np.exp(-x))
 
     # Generic Softmax with numerical stability
     def softmax(self, x):
@@ -105,19 +118,25 @@ class LSTM:
         """
         for key in self.params:
             # Momentum Calculation
-            self.adam_params["m" + key] = self.adam_params["m" + key] * self.beta1 + \
-                                          (1 - self.beta1) * self.grads["d" + key]
+            self.adam_params["m" + key] = (
+                self.adam_params["m" + key] * self.beta1
+                + (1 - self.beta1) * self.grads["d" + key]
+            )
 
             ## rms beta 2
-            self.adam_params["v" + key] = self.adam_params["v" + key] * self.beta2 + \
-                                          (1 - self.beta2) * self.grads["d" + key] ** 2
+            self.adam_params["v" + key] = (
+                self.adam_params["v" + key] * self.beta2
+                + (1 - self.beta2) * self.grads["d" + key] ** 2
+            )
 
             # Bias Correlation
-            correctedBias1 = (1 - self.beta1 ** batch_num)
-            correctedBias2 = (1 - self.beta2 ** batch_num)
+            correctedBias1 = 1 - self.beta1 ** batch_num
+            correctedBias2 = 1 - self.beta2 ** batch_num
             m_correlated = self.adam_params["m" + key] / correctedBias1
             v_correlated = self.adam_params["v" + key] / correctedBias2
-            self.params[key] = self.params[key] - self.lr * m_correlated / (np.sqrt(v_correlated) + self.eps)
+            self.params[key] = self.params[key] - self.lr * m_correlated / (
+                np.sqrt(v_correlated) + self.eps
+            )
         return
 
     def sample(self, h_prev, c_prev, sample_size):
@@ -125,14 +144,14 @@ class LSTM:
         Outputs a sample sequence from the model
         """
         x = np.zeros((self.vocab_size, 1))
-        h,c = h_prev, c_prev
+        h, c = h_prev, c_prev
         sample_string = ""
 
         for _ in range(sample_size):
             y_hat, _, h, _, c, _, _, _, _ = self.forward_step(x, h, c)
 
             # random index within the prob dist of y_hat.ravel()
-            #y_hat = np.asarray(y_hat).astype('float64')
+            # y_hat = np.asarray(y_hat).astype('float64')
             idx = np.random.choice(range(self.vocab_size), p=y_hat.ravel())
             x = np.zeros((self.vocab_size, 1))
             x[idx] = 1
@@ -166,7 +185,9 @@ class LSTM:
         y_hat = self.softmax(v)
         return y_hat, v, h, o, c, c_bar, i, f, z
 
-    def backward_step(self, y, y_hat, dh_next, dc_next, c_prev, z, f, i, c_bar, c, o, h):
+    def backward_step(
+        self, y, y_hat, dh_next, dc_next, c_prev, z, f, i, c_bar, c, o, h
+    ):
         """
         Implements the backward propagation for one time step
         """
@@ -204,12 +225,14 @@ class LSTM:
         self.grads["dbf"] += da_f
 
         # Note that even though this is a CIFG Implementation, we DO NOT skip the dwi and dfi, as the forget input is already 1 - i, so the grad would give us the correct differential.
-        dz = (np.dot(self.params["Wf"].T, da_f)
-              + np.dot(self.params["Wi"].T, da_i)
-              + np.dot(self.params["Wc"].T, da_c)
-              + np.dot(self.params["Wo"].T, da_o))
+        dz = (
+            np.dot(self.params["Wf"].T, da_f)
+            + np.dot(self.params["Wi"].T, da_i)
+            + np.dot(self.params["Wc"].T, da_c)
+            + np.dot(self.params["Wo"].T, da_o)
+        )
 
-        dh_prev = dz[:self.n_h, :]
+        dh_prev = dz[: self.n_h, :]
         dc_prev = f * dc
         return dh_prev, dc_prev
 
@@ -230,8 +253,9 @@ class LSTM:
             x[t] = np.zeros((self.vocab_size, 1))
             x[t][x_batch[t]] = 1
 
-            y_hat[t], v[t], h[t], o[t], c[t], c_bar[t], i[t], f[t], z[t] = \
-                self.forward_step(x[t], h[t - 1], c[t - 1])
+            y_hat[t], v[t], h[t], o[t], c[t], c_bar[t], i[t], f[t], z[
+                t
+            ] = self.forward_step(x[t], h[t - 1], c[t - 1])
 
             loss += -np.log(y_hat[t][y_batch[t], 0])
 
@@ -241,9 +265,20 @@ class LSTM:
         dc_next = np.zeros_like(c[0])
 
         for t in reversed(range(self.seq_len)):
-            dh_next, dc_next = self.backward_step(y_batch[t], y_hat[t], dh_next,
-                                                  dc_next, c[t - 1], z[t], f[t], i[t],
-                                                  c_bar[t], c[t], o[t], h[t])
+            dh_next, dc_next = self.backward_step(
+                y_batch[t],
+                y_hat[t],
+                dh_next,
+                dc_next,
+                c[t - 1],
+                z[t],
+                f[t],
+                i[t],
+                c_bar[t],
+                c[t],
+                o[t],
+                h[t],
+            )
         return loss, h[self.seq_len - 1], c[self.seq_len - 1]
 
     def train(self, X, verbose=True):
@@ -251,7 +286,7 @@ class LSTM:
         Main method of the LSTM class where training takes place
         """
         J = []  # to store losses
-        PP = [] # to store perplexity
+        PP = []  # to store perplexity
 
         # Proper division here
         num_batches = len(X) // self.seq_len
@@ -263,10 +298,17 @@ class LSTM:
 
             for j in range(0, len(X_trimmed) - self.seq_len, self.seq_len):
                 # prepare batches
-                x_batch = [self.char_to_idx[ch] for ch in X_trimmed[j: j + self.seq_len]]
-                y_batch = [self.char_to_idx[ch] for ch in X_trimmed[j + 1: j + self.seq_len + 1]]
+                x_batch = [
+                    self.char_to_idx[ch] for ch in X_trimmed[j : j + self.seq_len]
+                ]
+                y_batch = [
+                    self.char_to_idx[ch]
+                    for ch in X_trimmed[j + 1 : j + self.seq_len + 1]
+                ]
 
-                loss, h_prev, c_prev = self.forward_backward(x_batch, y_batch, h_prev, c_prev)
+                loss, h_prev, c_prev = self.forward_backward(
+                    x_batch, y_batch, h_prev, c_prev
+                )
 
                 # smooth out loss and store in list
                 self.smooth_loss = self.smooth_loss * 0.999 + loss * 0.001
@@ -280,13 +322,21 @@ class LSTM:
 
                 batch_num = epoch * self.epochs + j / self.seq_len + 1
                 self.update_params(batch_num)
-                
+
                 # print out loss and sample string
                 if verbose:
                     if j % 400000 == 0:
-                        print('Epoch:', epoch, '\tBatch:', j, "-", j + self.seq_len,
-                              '\tLoss:', round(self.smooth_loss, 2))
-                        print('Perplexity: ', self.perp)
+                        print(
+                            "Epoch:",
+                            epoch,
+                            "\tBatch:",
+                            j,
+                            "-",
+                            j + self.seq_len,
+                            "\tLoss:",
+                            round(self.smooth_loss, 2),
+                        )
+                        print("Perplexity: ", self.perp)
                         print("\n")
                         s = self.sample(h_prev, c_prev, sample_size=250)
                         print(s, "\n")
