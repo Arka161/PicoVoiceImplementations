@@ -34,6 +34,8 @@ python3 -m unittest unitRead.py
 
 ## Install requirements:
 
+You only need the `unittest` module for this repository. If you do not have the same, please run the command given below. 
+
 ```
 pip install -r requirements.txt
 ```
