@@ -32,6 +32,12 @@ You can directly use the module present. If you want to test the correctness, pl
 python3 -m unittest unitRead.py
 ```
 
+## Install requirements:
+
+```
+pip install -r requirements.txt
+```
+
  ## Format code to PEP-8 standards (Important for contributing to the repo): 
  
  This repository is strictly based on *PEP-8* standards. To assert PEP-8 standards after editing your own code, use the following: 
