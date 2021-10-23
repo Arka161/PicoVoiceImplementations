@@ -86,15 +86,19 @@ Traditionally, we might also need additional code for caching or assisting the h
 auto var_t = std::vector<std::vector<std::pair<int, int>>>
 ```
 
-### Usage (Windows):
+### Usage (UNIX/WSL):
 
 ```
-cd <insert_dir>
-gcc general_stack.c
-./a.exe
+mkdir build
+cd build/
+cmake ..
+make
+./stack
+./stackT
 ```
 
-A pre-compiled `a.exe` has also been added.
+The `stack` executable runs the main implementation, and the the `stackT` stands for the unit teasting.
+
 
 ### Reference: 
 

@@ -1,25 +1,20 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <string.h>
+#include "stack.h"
 
+/*
 
-// Define the Struct calling in the driver code.
-typedef struct {
-  int memberSize;
-  int totalNumElements;
-  void* data;
-  int top;
-} Stack;
+In this class, we define the member definitions for the prototypes declared in the header (.h) file
 
+*/
 
-// Create the Generic Stack
 Stack* createStack(int memberSize, int totalNumElements) {
   Stack *s = malloc(sizeof(Stack));
+
+  // Top as -1 denotes an empty stack
   s->top = -1;
   s->memberSize = memberSize;
   s->totalNumElements = totalNumElements;
-  s->data = malloc(totalNumElements * memberSize);
+  int totalSizeToAssign = totalNumElements * memberSize;
+  s->data = malloc(totalSizeToAssign);
   return s;
 }
 
@@ -29,8 +24,7 @@ int stackDestroy(Stack *s) {
 
   // Solves some dangling issues
   s->top = 0;
-  free(s->data);
-  free(s);
+  free(s->data); free(s);
   return 0;
 }
 
@@ -52,6 +46,7 @@ int stackPush(Stack *s,  void *data) {
   s->top++;
 
   // Void pointer to maintain generic status, calc. the start pos.
+  // Char* typecasting is used for pointer arithmatic, to treat it as an arr of size 1
   void* target = (char*)s->data+(s->top*s->memberSize);
 
   // Copy element to stack
@@ -63,9 +58,7 @@ int stackPush(Stack *s,  void *data) {
 
 int stackTop(Stack *s,  void *target) {
   if (s->top == -1) {
-
-    // We can't pop from empty stack
-    fprintf(stderr, "Can not pop from an empty stack.\n");
+    // Empty stack.. 
     // Return 1 as a denoter to fail in assert checking
     return 1;
   }
@@ -79,6 +72,8 @@ int stackTop(Stack *s,  void *target) {
 
 int stackPop(Stack *s,  void *target) {
   if (s->top == -1) {
+    // We can't pop from empty stack
+    fprintf(stderr, "Can not pop from an empty stack.\n");
     return 1;
   }
   void* source = (char*)s->data+(s->top*s->memberSize);
@@ -87,54 +82,4 @@ int stackPop(Stack *s,  void *target) {
   s->top--;
   memcpy(target, source, s->memberSize);
   return 0;
-}
-
-int main() {
-
-  // Mini Tests for implementation of the above stack
-
-  // Set buffer for printing data
-  setvbuf (stdout, NULL, _IONBF, 0);
-
-  Stack *s = createStack(sizeof(int), 5);
-
-  // Regular asserts
-  assert(s);
-  assert(s->memberSize == sizeof(int));
-  assert(s->totalNumElements == 5);
-
-  int a=4,b=5;
-  char c = 'a';
-  int d, r;
- 
-  r = stackPush(s, (void*)&a);
-  assert(s->top == 0);
-  assert(r == 0);
- 
-  r = stackPush(s, (void*)&b);
-  assert(s->top == 1);
-  assert(r == 0);
-
-  r = stackPop(s, (void*)&d);
-  assert(r == 0);
-  assert(s->top == 0);
-  assert(d == 5);
-
-  r = stackTop(s, (void*)&d);
-  assert(r == 0);
-  assert(s->top == 0);
-  assert(d == 4);
-
-  r = stackPush(s, (void*)&c);
-
-  r = stackPop(s, (void*)&d);
-  assert(s->top == 0);
-
-  // Free HEAP memory
-  r = stackDestroy(s);
-
-  // Test for success
-  assert(r == 0);
-
-  printf("Execution worked successfully \n");
 }
