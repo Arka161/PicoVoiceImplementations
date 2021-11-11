@@ -5,7 +5,7 @@ Each solution is present in the respective folders. Folder names:
 
 1. CIFG - A Deep Learning Model that has small tweaks to a vanilla LSTM.
 2. CStack - A Generic Stack that can work with all data types, hacked using a `void*`.
-3. patternMatcher - A super easy Pattern Matcher based on Dynamic Programming. 
+3. patternMatcher - A super easy Pattern Matcher based on Dynamic Programming (`+` and `.`). 
 
 Instructions are given inside each folder. Contact me at arka161@gmail.com in case of any doubts :) 
 
