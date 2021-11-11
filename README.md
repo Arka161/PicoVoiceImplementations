@@ -3,9 +3,9 @@ A repository containing some of the problems from PicoVoice's challenge.
 
 Each solution is present in the respective folders. Folder names: 
 
-1. CIFG
-2. CStack
-3. patternMatcher
+1. CIFG - A Deep Learning Model that has small tweaks to a vanilla LSTM.
+2. CStack - A Generic Stack that can work with all data types, hacked using a `void*`.
+3. patternMatcher - A super easy Pattern Matcher based on Dynamic Programming. 
 
 Instructions are given inside each folder. Contact me at arka161@gmail.com in case of any doubts :) 
 
